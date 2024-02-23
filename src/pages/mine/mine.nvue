@@ -1,0 +1,85 @@
+<template>
+  <view class="mine-container">
+
+    <scroll-view class="listview" style="flex: 1;" enableBackToTop="true">
+
+      <mine-header></mine-header>
+
+      <view v-for="(item, index) in dataList" :key="index">
+        <view @click="itemClick(item,index)">
+          <view
+              style="background-color: #ffffff;padding: 15px 15px 15px 15px;flex-direction: row; justify-content: space-between;">
+            <text style="font-size: 20px;">{{ item }}</text>
+            <text>></text>
+          </view>
+          <view style="height: 1px;background-color: #cccccc"/>
+        </view>
+      </view>
+
+
+      <view style="margin-top: 20px; width: 750rpx;align-content: center;align-items: center;" v-if="isLoading">
+        <text style="font-size: 16px;">{{ loadingText }}</text>
+      </view>
+
+
+    </scroll-view>
+
+  </view>
+</template>
+
+<script>
+import MineHeader from "../../components/mine-head/mine-header";
+
+export default {
+  name: "mine",
+  components: {MineHeader},
+  props: {},
+  data() {
+    return {
+      isLoading: false,
+      loadingText: '加载中...',
+      dataList: ["账号", "头像", "描述", "标签", "生日", "退出登录"],
+    }
+  },
+  created() {
+
+  },
+
+  onReady() {
+    //1s
+    setTimeout(() => {
+      this.isLoading = true;
+    }, 1000);
+
+  },
+
+  methods: {
+    //点击事件
+    itemClick(item, index) {
+      if (index === 0) {
+        uni.navigateTo({url: './mine-personal?query=' + encodeURIComponent(item)});
+      } else {
+        uni.showToast({title: item ?? 'hha'});
+      }
+    }
+  }
+}
+</script>
+
+<style scoped>
+.listview {
+  position: relative;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mine-container {
+  background-color: #ffffff;
+}
+
+
+</style>
